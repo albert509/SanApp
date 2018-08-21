@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewData["Title"] = "ParticipanteInfo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model SanApp.ViewModels.SanViewModel.ParticipanteViewModel
+
+
+<div class="row mt-3">
+    <div class="col">
+        <h2 class="text-muted text-center">@Model.Participante.Nombre</h2>
+        <small>Restante: @Model.Participante.Deuda</small>
+        <hr />
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-md-4">
+        <a class="btn btn-block btn-indigo mt-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Añadir pago</a>
+        <div class="collapse my-2" id="collapseExample">
+            <div class="card card-body">
+                <form asp-action="RegistrarPago" asp-controller="San" asp-route-partId="@Model.Participante.ParticipanteId" method="post">
+                    <div class="md-form">
+                        <input asp-for="PagoTotal" class="form-control">
+                        <label asp-for="PagoTotal">Pago de:</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Realizar pago</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+    <div class="col-md-4 ">
+        <h4 class="text-muted ">Pagos realizados por @Model.Participante.Nombre</h4>
+        @if (Model.Participante.Pagos.Any())
+        {
+            <table class="table table-hover">
+                @foreach (var i in Model.Participante.Pagos)
+                {
+                    <tr>
+                        <td class="font-weight-bold">Total: @i.Monto</td>
+                        <td>Fecha: @i.FechaPago.ToString("MM/dd/yyyy")</td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <h3 class="text-muted">@Model.Participante.Nombre no ha hecho ningun pago aún.</h3>
+        }
+
+    </div>
+</div>
+
+<style>
+    ul li {
+        list-style: none;
+    }
+</style>

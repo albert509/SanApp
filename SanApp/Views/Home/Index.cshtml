@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model SanApp.ViewModels.HomeViewModel.HomeViewModel
+
+
+<div class="row mt-3">
+    <div class="col-md-4">
+        <a class="btn btn-block btn-cyan mt-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-plus"></i> Nuevo san</a>
+        <div class="collapse my-2" id="collapseExample">
+            <div class="card card-body">
+                <form asp-action="NuevoSan" asp-controller="San" method="post">
+                    <div class="md-form">
+                        <input asp-for="SanDescripcion" class="form-control">
+                        <label asp-for="SanDescripcion">Descripcion</label>
+                    </div>
+                    <div class="md-form">
+                        <input asp-for="Monto" class="form-control">
+                        <label asp-for="Monto">De Cuanto sera el san?</label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaInicio">Fecha de Inicio</label>
+                        <input asp-for="FechaInicio" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+    <div class="col-md-4 ">
+        <h4 class="text-muted ">Lista de sans abiertos</h4>
+        @if (Model.SanList.Any())
+        {
+            <ul class="list-group">
+                @foreach (var i in Model.SanList)
+                {
+                    <li class="my-1">
+                        <a asp-action="SanInfo" asp-controller="San" asp-route-SanId="@i.SanId" class="btn btn-outline-secondary waves-effect btn-block text-left">@i.Descripcion <small style="float:right;">Monto: @i.Monto</small></a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <h3 class="text-muted">No tiene ningun san abierto por el momento</h3>
+        }
+
+    </div>
+</div>
+
+<style>
+    ul li{
+        list-style:none;
+    }
+</style>
